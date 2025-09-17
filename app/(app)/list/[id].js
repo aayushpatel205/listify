@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, TextInput, Text, Modal, TouchableOpacity } from "react-native";
 import {
   useFonts,
@@ -6,9 +6,10 @@ import {
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
 import Entypo from "react-native-vector-icons/Entypo";
-import EmojiSelector from "react-native-emoji-selector";
+import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import { ColorPicker } from "reanimated-color-picker";
 import ListItem from "../../../components/ListItem";
+import ListActionSheet from "../../../components/ListActionSheet";
 import QRShare from "../../../components/QRShare";
 
 export default function MyInput() {
@@ -21,7 +22,8 @@ export default function MyInput() {
   const [bgColor, setBgColor] = useState("#7D4CDB"); // default purple
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
-  const [visible , setVisible] = useState(false)
+  const qrSheetRef = useRef(null);
+  const listSheetRef = useRef(null);
 
   if (!fontsLoaded) return null;
 
@@ -31,15 +33,25 @@ export default function MyInput() {
         {/* Top Row Icons */}
         <View
           style={{
-            marginBottom: 10,
+            marginBottom: 5,
             flexDirection: "row",
             gap: 15,
             alignSelf: "flex-end",
             alignItems: "center",
           }}
         >
-          <Entypo name="add-to-list" size={30} color="#007AFF" />
-          <Entypo onPress={() => setVisible(true)} name="share" size={30} color="#007AFF" />
+          <Entypo
+            onPress={() => listSheetRef.current?.open()}
+            name="add-to-list"
+            size={30}
+            color="#007AFF"
+          />
+          <Entypo
+            onPress={() => qrSheetRef.current?.open()}
+            name="share"
+            size={30}
+            color="#007AFF"
+          />
 
           {/* Emoji Button */}
           {/* <TouchableOpacity onPress={() => setEmojiPickerVisible(true)}>
@@ -71,18 +83,11 @@ export default function MyInput() {
           </TouchableOpacity> */}
         </View>
 
-        {/* Title Input */}
-        <View>
-          <TextInput
-            maxLength={15}
-            style={{
-              fontSize: 32,
-              fontWeight: "600",
-              fontFamily: "Poppins_600SemiBold",
-            }}
-            placeholder="Enter list name..."
-          />
-        </View>
+        <TextInput
+          maxLength={12}
+          style={{ fontSize: 33, fontFamily: "Poppins_600SemiBold" }}
+          placeholder="Enter list name..."
+        />
 
         {/* Items */}
         <View style={{ display: "flex", paddingLeft: 10 }}>
@@ -120,7 +125,8 @@ export default function MyInput() {
           />
         </View>
       </Modal> */}
-      {/* <QRShare visible={visible} setVisible={setVisible}/> */}
+      <QRShare ref={qrSheetRef} />
+      <ListActionSheet ref={listSheetRef} />
     </View>
   );
 }

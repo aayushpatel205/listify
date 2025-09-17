@@ -1,59 +1,86 @@
-import React, { useRef } from "react";
-import { View, Button, Modal, StyleSheet } from "react-native";
+// QRShare.js
+import React, { useRef, forwardRef, useImperativeHandle, useState } from "react";
+import ActionSheet from "react-native-actions-sheet";
 import QRCode from "react-native-qrcode-svg";
 import Share from "react-native-share";
+import styled from "styled-components/native";
+import CustomText from "./CustomText";
 
-export default function QRShare({ visible , setVisible }) {
+const Button = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 10px;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: #007aff;
+  width: 50%;
+`;
+
+const QRShare = forwardRef((props, ref) => {
+  const actionSheetRef = useRef(null);
   const qrRef = useRef(null);
-  //   const [visible, setVisible] = React.useState(false);
+  const [qrValue] = useState("https://example.com");
 
   const shareQR = async () => {
     qrRef.current.toDataURL(async (data) => {
-      const base64Image = `data:image/png;base64,${data}`; // 👈 add prefix
       const shareOptions = {
-        title: "Share via",
-        url: base64Image, // now valid
+        title: "Share QR",
+        url: `data:image/png;base64,${data}`,
+        type: "image/png",
         message: "Scan this QR code!",
       };
       try {
         await Share.open(shareOptions);
       } catch (err) {
-        console.log("Error =>", err);
+        console.log("Share error", err);
       }
     });
   };
 
+  // expose methods to parent
+  useImperativeHandle(ref, () => ({
+    open: () => actionSheetRef.current?.show(),
+    close: () => actionSheetRef.current?.hide(),
+  }));
+
   return (
-    <View style={styles.container}>
-      <Button title="Show QR & Share" onPress={() => setVisible(true)} />
-
-      <Modal visible={visible} animationType="slide" transparent={true}>
-        <View style={styles.modalContainer}>
-          <QRCode
-            value="https://example.com"
-            size={200}
-            getRef={(c) => (qrRef.current = c)}
-          />
-
-          <View style={{ marginTop: 20 }}>
-            <Button title="Share QR" onPress={shareQR} />
-          </View>
-
-          <View style={{ marginTop: 20 }}>
-            <Button title="Close" onPress={() => setVisible(false)} />
-          </View>
-        </View>
-      </Modal>
-    </View>
+    <ActionSheet
+      ref={actionSheetRef}
+      gestureEnabled
+      containerStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+    >
+      <SheetContent>
+        <Title>Share</Title>
+        <QRCode value={qrValue} size={180} getRef={(c) => (qrRef.current = c)} />
+        <CodeText>
+          CODE LIST: <Bold>XHD•RB•Z</Bold>
+        </CodeText>
+        <Button style={{ marginTop: 15 }} onPress={shareQR}>
+          <CustomText style={{ color: "white", fontSize: 18 }}>Share QR</CustomText>
+        </Button>
+      </SheetContent>
+    </ActionSheet>
   );
-}
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
 });
+
+export default QRShare;
+
+// styled
+const SheetContent = styled.View`
+  align-items: center;
+  padding: 20px;
+`;
+const Title = styled.Text`
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+`;
+const CodeText = styled.Text`
+  margin-top: 12px;
+  font-size: 14px;
+  color: #333;
+`;
+const Bold = styled.Text`
+  font-weight: 700;
+`;
