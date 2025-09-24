@@ -4,13 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components";
 import { Link } from "expo-router";
 import CustomText from "../../components/CustomText";
-import Feather from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
 import { useAuth } from "@clerk/clerk-expo";
 import { Redirect } from "expo-router";
-
-
 
 const Container = styled.View`
   flex: 1;
@@ -51,10 +49,9 @@ const LoginPage = () => {
     password: "",
   });
 
-  if(!isLoaded) return null;
+  if (!isLoaded) return null;
 
-  // if(isSignedIn) return <Redirect href="/"/>
-
+  if(isSignedIn) return <Redirect href="/"/>
 
 
   const userLogin = async () => {
@@ -69,6 +66,7 @@ const LoginPage = () => {
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
         console.log("Login successful ✅");
+        return <Redirect href={"/list"} />;
       } else {
         console.log("Additional steps required:", result);
       }

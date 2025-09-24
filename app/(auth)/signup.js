@@ -3,7 +3,7 @@ import { Text, View, TextInput } from "react-native";
 import styled from "styled-components";
 import { Link } from "expo-router";
 import CustomText from "../../components/CustomText";
-import Feather from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 import { useSignUp } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 

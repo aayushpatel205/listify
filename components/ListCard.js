@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Pressable } from "react-native";
 import CustomText from "./CustomText";
-import Feather from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 import styled from "styled-components";
 import { Link } from "expo-router";
 

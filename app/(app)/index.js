@@ -2,7 +2,7 @@ import { Redirect } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
 import { Text, View, ActivityIndicator, ScrollView } from "react-native";
 import CustomText from "../../components/CustomText";
-import Feather from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 import styled from "styled-components";
 import ProfileIcon from "../../components/ProfileIcon";
 import ListCard from "../../components/ListCard";

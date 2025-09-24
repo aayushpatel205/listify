@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useRef, useState } from "react"
 import { TextInput } from "react-native";
 import ActionSheet from "react-native-actions-sheet";
 import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/Ionicons";
+import { Ionicons as Icon } from "@expo/vector-icons";
 import CustomText from "./CustomText";
 
 const ListActionSheet = forwardRef(({ onCreateNew, onJoinList }, ref) => {
@@ -19,7 +19,7 @@ const ListActionSheet = forwardRef(({ onCreateNew, onJoinList }, ref) => {
     <ActionSheet
       ref={actionSheetRef}
       gestureEnabled
-      containerStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16, padding: 20 }}
+      containerStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16, padding: 20 , paddingBottom: 25}}
     >
       <SheetContent>
         <CustomText weight="600" style={{ fontSize: 22, marginVertical: 10 }}>Create a new list</CustomText>

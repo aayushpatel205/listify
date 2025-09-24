@@ -3,7 +3,7 @@ import CustomText from "./CustomText";
 import ProfileIcon from "./ProfileIcon";
 import styled from "styled-components";
 import { View } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 
 const NavView = styled.View`
   display: flex;

@@ -5,8 +5,7 @@ import {
   Poppins_400Regular,
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
-import Entypo from "react-native-vector-icons/Entypo";
-import EmojiSelector, { Categories } from "react-native-emoji-selector";
+import { Entypo } from "@expo/vector-icons";
 import { ColorPicker } from "reanimated-color-picker";
 import ListItem from "../../../components/ListItem";
 import ListActionSheet from "../../../components/ListActionSheet";
@@ -85,7 +84,7 @@ export default function MyInput() {
 
         <TextInput
           maxLength={12}
-          style={{ fontSize: 33, fontFamily: "Poppins_600SemiBold" }}
+          style={{ fontSize: 34, fontFamily: "Poppins_600SemiBold" }}
           placeholder="Enter list name..."
         />
 

@@ -48,10 +48,12 @@ const QRShare = forwardRef((props, ref) => {
     <ActionSheet
       ref={actionSheetRef}
       gestureEnabled
-      containerStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+      containerStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 , paddingBottom: 20 }}
     >
       <SheetContent>
-        <Title>Share</Title>
+        <CustomText weight="600" style={{ fontSize: 22, marginBottom: 10 }}>
+          Share this QR code
+        </CustomText>
         <QRCode value={qrValue} size={180} getRef={(c) => (qrRef.current = c)} />
         <CodeText>
           CODE LIST: <Bold>XHD•RB•Z</Bold>
